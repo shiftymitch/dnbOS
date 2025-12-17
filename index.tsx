@@ -1,6 +1,18 @@
 
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
 
+interface EventData {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  lineup: string[];
+  description: string;
+  price: string;
+  status: 'ACTIVE' | 'SOLD_OUT' | 'CANCELLED';
+  ticketUrl: string;
+}
+
 // --- UI Elements ---
 const bootScreen = document.getElementById('boot-screen') as HTMLElement;
 const bootLogs = document.getElementById('boot-logs') as HTMLElement;
@@ -18,8 +30,8 @@ let isProcessing = false;
 // --- Boot Sequence ---
 async function startBoot() {
   const logs = [
-    "dnbOS ROM BIOS v1.0",
-    "Copyright (C) 2025 dnbOS",
+    `dnbOS ROM BIOS v${SYSTEM_SPECS.version}`,
+    "Copyright (C) 2025 dnbOS SLC",
     `CPU: ${SYSTEM_SPECS.cpu}`,
     `RAM: ${SYSTEM_SPECS.ram} ... OK`,
     "Detecting Mass Storage Devices...",
@@ -39,10 +51,10 @@ async function startBoot() {
     p.className = 'animate-pulse';
     p.textContent = `[${new Date().toLocaleTimeString()}] ${log}`;
     bootLogs.appendChild(p);
-    await new Promise(r => setTimeout(r, Math.random() * 200 + 100));
+    await new Promise(r => setTimeout(r, Math.random() * 100 + 50));
   }
 
-  await new Promise(r => setTimeout(r, 1000));
+  await new Promise(r => setTimeout(r, 800));
   bootScreen.classList.add('hidden-ui');
   mainUI.classList.remove('hidden-ui');
   initializeMain();
@@ -90,10 +102,10 @@ async function handleTerminalSubmit(e: Event) {
   } else if (userCommand === 'events') {
     addTerminalLine('ACCESSING /usr/bin/events...', 'system');
     setTimeout(() => {
-      EVENTS.forEach(event => {
-        addTerminalLine(`[${event.date}] ${event.title}`, 'info');
+      (EVENTS as unknown as EventData[]).forEach(event => {
+        addTerminalLine(`> [${event.date}] ${event.title}`, 'info');
       });
-      addTerminalLine('DIRECTORY_SCAN_COMPLETE: ' + EVENTS.length + ' ENTRIES FOUND', 'success');
+      addTerminalLine(`SCAN_COMPLETE: ${EVENTS.length} OPERATIONS FOUND`, 'success');
       isProcessing = false;
     }, 400);
   } else {
@@ -104,7 +116,7 @@ async function handleTerminalSubmit(e: Event) {
 
 // --- Render Helpers ---
 function renderEvents() {
-  eventList.innerHTML = EVENTS.map(event => {
+  eventList.innerHTML = (EVENTS as unknown as EventData[]).map(event => {
     const isSoldOut = event.status === 'SOLD_OUT';
     return `
       <div class="relative group overflow-hidden border border-[#00ff41]/20 bg-black/50 hover:border-[#00ff41]/60 transition-all duration-300 p-6 rounded-sm">
@@ -121,7 +133,7 @@ function renderEvents() {
             </div>
           </div>
           <div class="space-y-1">
-            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Decrypted Lineup:</p>
+            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Operational Lineup:</p>
             <div class="flex flex-wrap gap-2">
               ${event.lineup.map(artist => `
                 <span class="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">${artist}</span>
@@ -130,10 +142,11 @@ function renderEvents() {
           </div>
           <p class="text-gray-400 text-sm italic">&gt; ${event.description}</p>
           <div class="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
-            <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'TERMINATED' : event.price}</div>
-            <button ${isSoldOut ? 'disabled' : ''} class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all ${isSoldOut ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700' : 'bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)]'}">
-              ${isSoldOut ? 'SOLD OUT' : 'INITIATE PURCHASE'}
-            </button>
+            <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'MEMORY FULL' : event.price}</div>
+            ${isSoldOut 
+              ? `<button disabled class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">TERMINATED</button>`
+              : `<a href="${event.ticketUrl}" target="_blank" class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)] text-center">INITIATE PURCHASE</a>`
+            }
           </div>
         </div>
         <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#00ff41]/50"></div>
@@ -164,15 +177,16 @@ function renderHeader() {
 function initializeMain() {
   renderHeader();
   renderEvents();
-  bulletinText.textContent = "Attention all units: Critical density predicted at Sector Soundwell SLC for Neural Networks Vol 1. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected.";
+  bulletinText.textContent = "Attention all units: Critical density predicted for Sector SLC operations. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected at high frequencies.";
   
-  addTerminalLine('dnbOS [Version 1.0]', 'info');
-  addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
+  addTerminalLine(`dnbOS [Version ${SYSTEM_SPECS.version}]`, 'info');
+  addTerminalLine('(c) 2025 dnbOS Digital Infrastructures. All rights reserved.', 'info');
   addTerminalLine('');
-  addTerminalLine('Type "help" for a list of system commands.', 'success');
+  addTerminalLine('Type "help" for available command matrix.', 'success');
   
   terminalForm.addEventListener('submit', handleTerminalSubmit);
 }
 
 // Start
 startBoot();
+
