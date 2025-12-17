@@ -1,0 +1,8 @@
+
+{
+  "name": "dnbOS - Salt Lake City Drum & Bass",
+  "description": "A terminal-inspired BIOS-themed vanilla JS website for SLC's premier DnB promoter, featuring upcoming events and a system-integrated AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
