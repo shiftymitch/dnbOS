@@ -1,14 +1,13 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { TerminalLine } from '../types';
-import { gemini } from '../services/geminiService';
 
 const Terminal: React.FC = () => {
   const [lines, setLines] = useState<TerminalLine[]>([
     { text: 'dnbOS [Version 1.0.0-flash]', type: 'info' },
     { text: '(c) 2025 dnbOS. All rights reserved.', type: 'info' },
     { text: '', type: 'info' },
-    { text: 'Type "help" for a list of system commands or ask the AI a question.', type: 'success' },
+    { text: 'Type "help" for a list of system commands.', type: 'success' },
   ]);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -36,7 +35,6 @@ const Terminal: React.FC = () => {
         { text: '- clear: Purge terminal buffer', type: 'info' },
         { text: '- status: Check system health', type: 'info' },
         { text: '- help: Display this help matrix', type: 'info' },
-        { text: '- [Any Question]: Query DNBIOS Neural Net', type: 'info' },
       ]);
       setIsProcessing(false);
     } else if (userCommand === 'clear') {
@@ -52,9 +50,7 @@ const Terminal: React.FC = () => {
        setLines(prev => [...prev, { text: 'SYSTEM: OK | BPM: 174 | BASS_LOAD: 98% | TEMP: NOMINAL', type: 'success' }]);
        setIsProcessing(false);
     } else {
-      // Send to Gemini
-      const response = await gemini.querySystem(input);
-      setLines(prev => [...prev, { text: response, type: 'system' }]);
+      setLines(prev => [...prev, { text: `ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND.`, type: 'error' }]);
       setIsProcessing(false);
     }
   };
@@ -73,7 +69,7 @@ const Terminal: React.FC = () => {
             {line.text}
           </div>
         ))}
-        {isProcessing && <div className="animate-pulse text-[#00ff41]">DNBIOS is thinking...</div>}
+        {isProcessing && <div className="animate-pulse text-[#00ff41]">Processing...</div>}
       </div>
       <form onSubmit={handleCommand} className="flex border-t border-[#00ff41]/20 pt-2">
         <span className="text-[#00ff41] mr-2">guest@dnbos:~$</span>
@@ -83,7 +79,7 @@ const Terminal: React.FC = () => {
           onChange={(e) => setInput(e.target.value)}
           disabled={isProcessing}
           className="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700"
-          placeholder="Enter command or ask AI..."
+          placeholder="Enter command..."
           autoFocus
         />
       </form>

@@ -1,6 +1,5 @@
 
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
-import { gemini } from './ai.js';
 
 // --- UI Elements ---
 const bootScreen = document.getElementById('boot-screen');
@@ -81,7 +80,6 @@ async function handleTerminalSubmit(e) {
     addTerminalLine('- clear: Purge terminal buffer', 'info');
     addTerminalLine('- status: Check system health', 'info');
     addTerminalLine('- help: Display this help matrix', 'info');
-    addTerminalLine('- [Question]: Query DNBIOS Neural Net (Restricted)', 'info');
     isProcessing = false;
   } else if (userCommand === 'clear') {
     terminalOutput.innerHTML = '';
@@ -99,12 +97,7 @@ async function handleTerminalSubmit(e) {
       isProcessing = false;
     }, 400);
   } else {
-    addTerminalLine('dnbOS is thinking...', 'system');
-    const response = await gemini.querySystem(input);
-    if (terminalOutput.lastChild) {
-      terminalOutput.lastChild.remove();
-    }
-    addTerminalLine(response, 'system');
+    addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND IN LOCAL REPOSITORY.`, 'error');
     isProcessing = false;
   }
 }

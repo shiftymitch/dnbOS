@@ -1,12 +1,9 @@
 
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
-import { gemini } from './ai.js';
 
 // --- UI Elements ---
-// Fix: Cast elements to specific types to avoid "Property 'value' does not exist on type 'HTMLElement'" errors
 const bootScreen = document.getElementById('boot-screen') as HTMLElement;
 const bootLogs = document.getElementById('boot-logs') as HTMLElement;
-const bootCursor = document.getElementById('boot-cursor') as HTMLElement;
 const mainUI = document.getElementById('main-ui') as HTMLElement;
 const terminalOutput = document.getElementById('terminal-output') as HTMLElement;
 const terminalForm = document.getElementById('terminal-form') as HTMLFormElement;
@@ -52,9 +49,9 @@ async function startBoot() {
 }
 
 // --- Terminal Logic ---
-function addTerminalLine(text, type = 'info') {
+function addTerminalLine(text: string, type = 'info') {
   const line = document.createElement('div');
-  const colors = {
+  const colors: Record<string, string> = {
     error: 'text-red-500',
     success: 'text-cyan-400',
     system: 'text-[#00ff41]',
@@ -67,15 +64,13 @@ function addTerminalLine(text, type = 'info') {
   terminalOutput.scrollTop = terminalOutput.scrollHeight;
 }
 
-async function handleTerminalSubmit(e) {
+async function handleTerminalSubmit(e: Event) {
   e.preventDefault();
-  // Fix: terminalInput is now cast to HTMLInputElement, so .value is valid
   const input = terminalInput.value.trim();
   if (!input || isProcessing) return;
 
   const userCommand = input.toLowerCase();
   addTerminalLine(`guest@dnbos:~$ ${input}`, 'input');
-  // Fix: terminalInput is now cast to HTMLInputElement, so .value is valid
   terminalInput.value = '';
   isProcessing = true;
 
@@ -85,7 +80,6 @@ async function handleTerminalSubmit(e) {
     addTerminalLine('- clear: Purge terminal buffer', 'info');
     addTerminalLine('- status: Check system health', 'info');
     addTerminalLine('- help: Display this help matrix', 'info');
-    addTerminalLine('- [Any Question]: Query DNBIOS Neural Net', 'info');
     isProcessing = false;
   } else if (userCommand === 'clear') {
     terminalOutput.innerHTML = '';
@@ -103,13 +97,7 @@ async function handleTerminalSubmit(e) {
       isProcessing = false;
     }, 400);
   } else {
-    addTerminalLine('dnbOS is thinking...', 'system');
-    const response = await gemini.querySystem(input);
-    // Fix: Added safety check before removing last child to prevent potential null access
-    if (terminalOutput.lastChild) {
-      terminalOutput.lastChild.remove();
-    }
-    addTerminalLine(response, 'system');
+    addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND.`, 'error');
     isProcessing = false;
   }
 }
