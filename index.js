@@ -166,8 +166,8 @@ function initializeMain() {
   renderEvents();
   bulletinText.textContent = "Attention all units: Critical density predicted at Sector SLC Metro Hall for Neural Networks Vol 1. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected.";
   
-  addTerminalLine('dnbOS [Version 2.5.0-flash]', 'info');
-  addTerminalLine('(c) 2025 Sector SLC Intelligence. All rights reserved.', 'info');
+  addTerminalLine('dnbOS [Version 1.0]', 'info');
+  addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
   addTerminalLine('');
   addTerminalLine('Type "help" for a list of system commands.', 'success');
   
