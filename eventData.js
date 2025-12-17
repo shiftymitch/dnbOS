@@ -8,7 +8,8 @@ export const EVENTS = [
     lineup: ['DLR', 'SURVEY', 'SUB-X', 'SYSTEM_ERR'],
     description: 'High-frequency neurofunk infiltration. Direct interface required.',
     price: '$25.00',
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    tickets: ''
   },
   {
     id: 'evt-2024-002',
@@ -18,7 +19,8 @@ export const EVENTS = [
     lineup: ['ALIX PEREZ', 'VISAGES', 'MONTY'],
     description: '1900-0200. Minimal/Deep Drum & Bass session. 174BPM fixed rate.',
     price: '$35.00',
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    tickets: ''
   },
   {
     id: 'evt-2024-003',
@@ -28,7 +30,8 @@ export const EVENTS = [
     lineup: ['CHASE & STATUS (DJ SET)', 'BOU', 'SIGNAL'],
     description: 'New Years Eve total system reboot. Critical mass expected.',
     price: '$65.00',
-    status: 'SOLD_OUT'
+    status: 'SOLD_OUT',
+    tickets: ''
   }
 ];
 
