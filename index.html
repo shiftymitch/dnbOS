@@ -131,6 +131,43 @@
         box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
         min-height: 152px;
       }
+
+      /* Meltdown Effect */
+      .meltdown {
+        animation: shake 0.1s infinite !important;
+        color: #ff0000 !important;
+      }
+      .meltdown * {
+        color: #ff0000 !important;
+        border-color: #ff0000 !important;
+        box-shadow: none !important;
+      }
+      .meltdown .matrix-bg {
+        background-image: radial-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 0) !important;
+      }
+
+      @keyframes shake {
+        0% { transform: translate(2px, 2px) rotate(0deg); }
+        25% { transform: translate(-2px, -3px) rotate(-1deg); }
+        50% { transform: translate(-4px, 0px) rotate(1deg); }
+        75% { transform: translate(4px, 3px) rotate(0deg); }
+        100% { transform: translate(2px, -2px) rotate(-1deg); }
+      }
+
+      .bpm-input {
+        background: transparent;
+        border: none;
+        color: inherit;
+        width: 60px;
+        font-family: inherit;
+        font-size: inherit;
+        text-align: right;
+        outline: none;
+        border-bottom: 1px dashed rgba(0, 255, 65, 0.3);
+      }
+      .bpm-input:focus {
+        border-bottom: 1px solid #00ff41;
+      }
     </style>
   <script type="importmap">
 {
@@ -155,7 +192,7 @@
     </div>
 
     <!-- Main Content -->
-    <div id="main-ui" class="hidden-ui min-h-screen p-4 md:p-8 flex flex-col items-center">
+    <div id="main-ui" class="hidden-ui min-h-screen p-4 md:p-8 flex flex-col items-center transition-colors duration-300">
       <header class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
         <div class="flex flex-col items-center md:items-start">
           <img src="/assets/img/dnbOS_styled.png" alt="dnbOS" class="h-36 flicker"/>
