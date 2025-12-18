@@ -166,9 +166,10 @@ function renderEvents() {
           <p class="text-gray-400 text-sm italic">&gt; ${event.description}</p>
           <div class="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
             <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'ACCESS DENIED' : event.price}</div>
-            <button ${isSoldOut ? 'disabled' : ''} class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all ${isSoldOut ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700' : 'bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)]'}">
-              ${isSoldOut ? 'SOLD OUT' : 'INITIATE PURCHASE'}
-            </button>
+            ${isSoldOut 
+              ? `<button disabled class="px-6 py-2 font-mono text-sm uppercase tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">SOLD OUT</button>`
+              : `<a href="${event.ticketUrl}" target="_blank" class="px-6 py-2 font-mono text-sm uppercase tracking-widest bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)] text-center">GET_TICKETS</a>`
+            }
           </div>
         </div>
         <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#00ff41]/50"></div>
