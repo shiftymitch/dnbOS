@@ -1,4 +1,4 @@
-import { EVENTS, SYSTEM_SPECS } from './eventData.js';
+import { EVENTS, SYSTEM_SPECS } from './eventData. js';
 
 // --- UI Elements ---
 const bootScreen = document.getElementById('boot-screen') as HTMLElement;
@@ -34,7 +34,7 @@ function mountSpotifyPlayer() {
 
   const element = document.getElementById('spotify-player-mount');
   if (!element) {
-    addTerminalLine('SYSTEM: AUDIO_MOUNT_NODE_NOT_FOUND', 'error');
+    addTerminalLine('SYSTEM:  AUDIO_MOUNT_NODE_NOT_FOUND', 'error');
     return;
   }
 
@@ -64,11 +64,11 @@ async function startBoot() {
     "dnbOS ROM BIOS v1.0",
     "Copyright (C) 2025 dnbOS",
     `CPU: ${SYSTEM_SPECS.cpu}`,
-    `RAM: ${SYSTEM_SPECS.ram} ... OK`,
+    `RAM: ${SYSTEM_SPECS. ram} ... OK`,
     "Detecting Mass Storage Devices...",
     "Primary Master: BASS-DRIVE-500GB",
     "Secondary Master: AMEN-BREAK-CDROM",
-    "Memory Test: 1048576K OK",
+    "Memory Test:  1048576K OK",
     `Loading Kernel ${SYSTEM_SPECS.kernel}...`,
     "Mounting /dev/drums",
     "Mounting /dev/bass",
@@ -94,10 +94,10 @@ async function startBoot() {
 }
 
 // --- Meltdown Logic ---
-async function triggerMeltdown(invalidValue: string) {
+async function triggerMeltdown(invalidValue:  string) {
   isProcessing = true;
   mainUI.classList.add('meltdown');
-  addTerminalLine(`CRITICAL: CLOCK_OUT_OF_SYNC (${invalidValue} BPM)`, 'error');
+  addTerminalLine(`CRITICAL:  CLOCK_OUT_OF_SYNC (${invalidValue} BPM)`, 'error');
   addTerminalLine("ERROR: PARITY_BIT_MISMATCH", 'error');
   addTerminalLine("WARNING: CORE_TEMPERATURE_CRITICAL", 'error');
   addTerminalLine("FATAL: KERNEL_PANIC_DNB_RTOS", 'error');
@@ -121,7 +121,7 @@ function handleBpmChange(e: Event) {
   // Valid ranges: 172-176 OR 86-88
   const isValid = (val >= 172 && val <= 176) || (val >= 86 && val <= 88);
 
-  if (!isValid) {
+  if (! isValid) {
     triggerMeltdown(input.value);
   } else {
     currentBpm = val;
@@ -134,7 +134,7 @@ function handleBpmChange(e: Event) {
 // --- Terminal Logic ---
 function addTerminalLine(text: string, type = 'info') {
   const line = document.createElement('div');
-  const colors: Record<string, string> = {
+  const colors:  Record<string, string> = {
     error: 'text-red-500',
     success: 'text-cyan-400',
     system: 'text-[#00ff41]',
@@ -144,10 +144,10 @@ function addTerminalLine(text: string, type = 'info') {
   line.className = colors[type] || '';
   line.textContent = text;
   terminalOutput.appendChild(line);
-  terminalOutput.scrollTop = terminalOutput.scrollHeight;
+  terminalOutput.scrollTop = terminalOutput. scrollHeight;
 }
 
-async function handleTerminalSubmit(e: Event) {
+async function handleTerminalSubmit(e:  Event) {
   e.preventDefault();
   const input = terminalInput.value.trim();
   if (!input || isProcessing) return;
@@ -162,9 +162,9 @@ async function handleTerminalSubmit(e: Event) {
     addTerminalLine('- events: Re-sync and list all active operations', 'info');
     addTerminalLine('- audio: Toggle deck visibility', 'info');
     addTerminalLine('- play: Force playback start signal', 'info');
-    addTerminalLine('- pause: Pause audio playback', 'info');
-    addTerminalLine('- clear: Flush terminal memory', 'info');
-    addTerminalLine('- status: Diagnostics', 'info');
+    addTerminalLine('- pause:  Pause audio playback', 'info');
+    addTerminalLine('- clear:  Flush terminal memory', 'info');
+    addTerminalLine('- status:  Diagnostics', 'info');
     addTerminalLine('- reboot: Manual system reset', 'info');
     isProcessing = false;
   } else if (userCommand === 'reboot') {
@@ -177,12 +177,12 @@ async function handleTerminalSubmit(e: Event) {
     isProcessing = false;
   } else if (userCommand === 'audio') {
     mediaDeck.classList.toggle('hidden');
-    addTerminalLine(`DECK_01_VISIBILITY: ${mediaDeck.classList.contains('hidden') ? 'OFF' : 'ON'}`, 'system');
+    addTerminalLine(`DECK_01_VISIBILITY: ${mediaDeck. classList.contains('hidden') ? 'OFF' : 'ON'}`, 'system');
     isProcessing = false;
   } else if (userCommand === 'play') {
     if (spotifyEmbed) {
       spotifyEmbed.play();
-      addTerminalLine('SIGNAL_SENT: PLAYBACK_INITIATED', 'success');
+      addTerminalLine('SIGNAL_SENT:  PLAYBACK_INITIATED', 'success');
     } else {
       addTerminalLine('ERROR: AUDIO_INTERFACE_NOT_READY', 'error');
     }
@@ -194,12 +194,13 @@ async function handleTerminalSubmit(e: Event) {
     } else {
       addTerminalLine('ERROR: AUDIO_NOT_PLAYING', 'error');
     }
+    isProcessing = false;
   } else if (userCommand === 'events') {
     addTerminalLine('INITIATING_REMOTE_SYNC_REQUEST...', 'system');
     await syncEvents();
     isProcessing = false;
   } else {
-    addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND.`, 'error');
+    addTerminalLine(`ERROR: COMMAND "${input. toUpperCase()}" NOT FOUND.`, 'error');
     isProcessing = false;
   }
 }
@@ -225,12 +226,12 @@ async function syncEvents() {
   const percentLabel = document.getElementById('sync-percent')!;
   
   const steps = [
-    { msg: "OPENING_SOCKET: 174.174.0.1:8080", progress: 10 },
+    { msg: "OPENING_SOCKET:  174.174.0.1:8080", progress: 10 },
     { msg: "HANDSHAKE_SUCCESSFUL (AES-256)", progress: 25 },
-    { msg: "DOWNLOADING_SECTOR_SLC_MANIFEST...", progress: 40 },
-    { msg: "INTEGRITY_CHECK: PASS", progress: 55 },
-    { msg: `DECRYPTING: ${EVENTS[0].title}...`, progress: 70 },
-    { msg: `DECRYPTING: ${EVENTS[1].title}...`, progress: 85 },
+    { msg: "DOWNLOADING_SECTOR_SLC_MANIFEST.. .", progress: 40 },
+    { msg: "INTEGRITY_CHECK:  PASS", progress: 55 },
+    { msg: `DECRYPTING:  ${EVENTS[0].title}... `, progress: 70 },
+    { msg: `DECRYPTING: ${EVENTS[1]. title}...`, progress: 85 },
     { msg: "RECONSTRUCTING_DOM_STREAM...", progress: 95 },
     { msg: "SYNC_COMPLETE", progress: 100 }
   ];
@@ -271,7 +272,7 @@ function renderEvents() {
             </div>
           </div>
           <div class="space-y-1">
-            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup:</p>
+            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup: </p>
             <div class="flex flex-wrap gap-2">
               ${event.lineup.map(artist => `
                 <span class="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">${artist}</span>
@@ -283,7 +284,7 @@ function renderEvents() {
             <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'ACCESS DENIED' : event.price + '+'}</div>
             ${isSoldOut 
               ? `<button disabled class="px-6 py-2 font-mono text-sm uppercase tracking-widest bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">SOLD OUT</button>`
-              : `<a href="${event.ticketUrl}" target="_blank" class="px-6 py-2 font-mono text-sm uppercase tracking-widest bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)] text-center">INITIATE PURCHASE</a>`
+              : `<a href="${event.ticketUrl}" target="_blank" class="px-6 py-2 font-mono text-sm uppercase tracking-widest bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black transition-colors">GET ACCESS</a>`
             }
           </div>
         </div>
@@ -298,10 +299,10 @@ function renderEvents() {
 
 function renderHeader() {
   const specs = [
-    { label: 'CPU', value: SYSTEM_SPECS.cpu },
+    { label: 'CPU', value:  SYSTEM_SPECS.cpu },
     { label: 'NET', value: SYSTEM_SPECS.network },
     { label: 'SEC', value: 'ENCRYPTED' },
-    { label: 'BPM', value: `<input type="number" step="0.01" class="bpm-input" value="${currentBpm.toFixed(2)}" id="bpm-editor">` }
+    { label: 'BPM', value: `<input type="number" step="0.01" class="bpm-input" value="${currentBpm. toFixed(2)}" id="bpm-editor">` }
   ];
   specsHeader.innerHTML = specs.map(s => `
     <div class="flex items-center space-x-2">
@@ -318,18 +319,19 @@ function renderHeader() {
         editor.blur();
       }
     });
+  }
 }
 
 // --- Initialization ---
 function initializeMain() {
   renderHeader();
   syncEvents();
-  bulletinText.textContent = "Boot sequence complete. You’re connected to dnbOS — a live feed of Drum & Bass events and activity in Salt Lake City.";
+  bulletinText. textContent = "Boot sequence complete. You're connected to dnbOS — a live feed of Drum & Bass events and activity in Salt Lake City.";
   
   addTerminalLine('dnbOS [Version 1.0]', 'info');
-  addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
+  addTerminalLine('(c) 2025 dnbOS.  All rights reserved.', 'info');
   addTerminalLine('');
-  addTerminalLine('Type "help" for a list of system commands.', 'success');
+  addTerminalLine('Type "help" for a list of system commands. ', 'success');
   
   terminalForm.addEventListener('submit', handleTerminalSubmit);
 }
