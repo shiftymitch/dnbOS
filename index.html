@@ -115,9 +115,10 @@
         animation: blink 1s steps(1) infinite;
         pointer-events: none;
         opacity: 0;
+        transform: translateX(1ch);
       }
 
-      #terminal-input:focus + .terminal-caret {
+      #terminal-input:focus ~ .terminal-caret {
         opacity: 1;
       }
 
@@ -176,15 +177,17 @@
               <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1 mb-4 scrollbar-hide"></div>
               <form id="terminal-form" class="flex border-t border-[#00ff41]/20 pt-2">
                 <span class="text-[#00ff41] mr-2">guest@dnbos > </span>
-                <div class="relative font-mono text-sm text-[#00ff41]">
+                <div id="terminal-input-wrap" class="relative font-mono text-sm text-[#00ff41] flex-1 min-w-0">
                   <input
                     id="terminal-input"
                     type="text"
-                    class="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700 caret-transparent"
+                    class="w-full bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700 caret-transparent"
                     placeholder="Enter command..."
                     autocomplete="off"
                   />
-                  <span class="terminal-caret"></span>
+                  <!-- Hidden mirror used to measure the rendered text width -->
+                  <span id="terminal-mirror" class="absolute left-0 top-0 invisible whitespace-pre"></span>
+                  <span id="terminal-caret" class="terminal-caret"></span>
                 </div>
               </form>
             </div>
@@ -239,5 +242,50 @@
     <div class="scanline"></div>
 
     <script type="module" src="/index.tsx"></script>
+    <script>
+      (function () {
+        function syncCaret() {
+          const input = document.getElementById('terminal-input');
+          const mirror = document.getElementById('terminal-mirror');
+          const caret = document.getElementById('terminal-caret');
+          if (!input || !mirror || !caret) return;
+
+          // Mirror font styles so measurement matches exactly
+          const cs = window.getComputedStyle(input);
+          mirror.style.fontFamily = cs.fontFamily;
+          mirror.style.fontSize = cs.fontSize;
+          mirror.style.fontWeight = cs.fontWeight;
+          mirror.style.letterSpacing = cs.letterSpacing;
+
+          // Use a non-breaking space when empty so width is 0, then we still add 1ch via caret default transform
+          const val = input.value || '';
+          mirror.textContent = val.replace(/\s/g, '\u00A0');
+
+          // Measure the rendered text width and move the caret to the end, plus 1ch
+          const textWidth = mirror.getBoundingClientRect().width;
+          caret.style.transform = `translateX(calc(${textWidth}px + 1ch))`;
+        }
+
+        function bind() {
+          const input = document.getElementById('terminal-input');
+          if (!input) return;
+
+          const handler = () => requestAnimationFrame(syncCaret);
+          input.addEventListener('input', handler);
+          input.addEventListener('focus', handler);
+          input.addEventListener('keyup', handler);
+          window.addEventListener('resize', handler);
+
+          // Initial position
+          handler();
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bind);
+        } else {
+          bind();
+        }
+      })();
+    </script>
 </body>
 </html>
