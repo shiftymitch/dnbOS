@@ -6,7 +6,7 @@ export const EVENTS = [
     date: 'DEC 31, 2025',
     location: 'SOUNDWELL, SLC',
     lineup: ['SURVEY', 'SUB-X', 'SYSTEM_ERR'],
-    description: 'High-frequency neurofunk infiltration. Direct interface required.',
+    description: 'High-frequency infiltration. Direct interface required.',
     price: '$25.00',
     status: 'ACTIVE',
     ticketUrl: 'https://www.24tix.com/event/pirapus'
@@ -28,7 +28,7 @@ export const EVENTS = [
     date: 'FEB 20, 2026',
     location: 'THE COMPLEX, SLC',
     lineup: ['BOU', 'SIGNAL'],
-    description: 'New Years Eve total system reboot. Critical mass expected.',
+    description: 'Prove you have a backbone. Max payload expected.',
     price: '$65.00',
     status: 'SOLD_OUT',
     ticketUrl: 'https://www.24tix.com/event/chase-and-status'
