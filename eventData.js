@@ -8,7 +8,8 @@ export const EVENTS = [
     lineup: ['SURVEY', 'SUB-X', 'SYSTEM_ERR'],
     description: 'High-frequency neurofunk infiltration. Direct interface required.',
     price: '$25.00',
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    ticketUrl: 'https://www.24tix.com/event/pirapus'
   },
   {
     id: 'evt-2026-001',
@@ -18,7 +19,8 @@ export const EVENTS = [
     lineup: ['VISAGES', 'MONTY'],
     description: '1900-0200. Minimal/Deep Drum & Bass session. 174BPM fixed rate.',
     price: '$35.00',
-    status: 'ACTIVE'
+    status: 'ACTIVE',
+    ticketUrl: 'https://www.24tix.com/event/alix-perez'
   },
   {
     id: 'evt-2026-002',
@@ -28,7 +30,8 @@ export const EVENTS = [
     lineup: ['BOU', 'SIGNAL'],
     description: 'New Years Eve total system reboot. Critical mass expected.',
     price: '$65.00',
-    status: 'SOLD_OUT'
+    status: 'SOLD_OUT',
+    ticketUrl: 'https://www.24tix.com/event/chase-and-status'
   }
 ];
 
