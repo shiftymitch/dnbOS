@@ -40,7 +40,8 @@ function mountSpotifyPlayer() {
   const options = {
     width: '100%',
     height: '152',
-    uri: 'spotify:playlist:2iLwOjiPrh9CpRyN6vfyvv' // Deep Drum & Bass Official
+    uri: 'spotify:playlist:2iLwOjiPrh9CpRyN6vfyvv?theme=0',
+    allow: 'autoplay',
   };
 
   spotifyAPI.createController(element, options, (EmbedController: any) => {
