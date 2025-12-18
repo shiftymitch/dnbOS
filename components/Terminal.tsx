@@ -72,7 +72,7 @@ const Terminal: React.FC = () => {
         {isProcessing && <div className="animate-pulse text-[#00ff41]">Processing...</div>}
       </div>
       <form onSubmit={handleCommand} className="flex border-t border-[#00ff41]/20 pt-2">
-        <span className="text-[#00ff41] mr-2">guest@dnbos:~$</span>
+        <span className="text-[#00ff41] mr-2">guest@dnbos > </span>
         <input
           type="text"
           value={input}
