@@ -14,6 +14,37 @@ const bulletinText = document.getElementById('bulletin-text') as HTMLElement;
 
 // --- State ---
 let isProcessing = false;
+let spotifyEmbed: any = null;
+let spotifyAPI: any = null;
+
+// --- Spotify Global Hook ---
+// We attach this to window immediately so the async script finds it regardless of boot progress
+(window as any).onSpotifyIframeApiReady = (IFrameAPI: any) => {
+  spotifyAPI = IFrameAPI;
+  console.log('dnbOS: Spotify API Ready');
+};
+
+// --- Spotify Player Mount ---
+function mountSpotifyPlayer() {
+  if (!spotifyAPI) {
+    addTerminalLine('SYSTEM: WAITING_FOR_AUDIO_SUBSYSTEM...', 'info');
+    setTimeout(mountSpotifyPlayer, 500);
+    return;
+  }
+
+  const element = document.getElementById('spotify-player-mount');
+  if (!element) return;
+
+  const options = {
+    width: '100%',
+    height: '152',
+    uri: 'spotify:playlist:2iLwOjiPrh9CpRyN6vfyvv' // Deep Drum & Bass Official
+  };
+
+  spotifyAPI.createController(element, options, (EmbedController: any) => {
+    spotifyEmbed = EmbedController;
+    addTerminalLine('DECK_01: AUDIO_IFRAME_SYNC_COMPLETE', 'success');
+  });
 
 // --- Boot Sequence ---
 async function startBoot() {
@@ -31,6 +62,7 @@ async function startBoot() {
     "Mounting /dev/bass",
     "Synchronizing Clock to 174.00 BPM",
     "Initializing User Interface...",
+    "DECK_01: STANDBY",
     "READY."
   ];
 
@@ -39,13 +71,14 @@ async function startBoot() {
     p.className = 'animate-pulse';
     p.textContent = `[${new Date().toLocaleTimeString()}] ${log}`;
     bootLogs.appendChild(p);
-    await new Promise(r => setTimeout(r, Math.random() * 200 + 100));
+    await new Promise(r => setTimeout(r, Math.random() * 60 + 30));
   }
 
-  await new Promise(r => setTimeout(r, 1000));
+  await new Promise(r => setTimeout(r, 500));
   bootScreen.classList.add('hidden-ui');
   mainUI.classList.remove('hidden-ui');
   initializeMain();
+  mountSpotifyPlayer();
 }
 
 // --- Terminal Logic ---
@@ -121,7 +154,7 @@ function renderEvents() {
             </div>
           </div>
           <div class="space-y-1">
-            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Decrypted Lineup:</p>
+            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup:</p>
             <div class="flex flex-wrap gap-2">
               ${event.lineup.map(artist => `
                 <span class="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">${artist}</span>
