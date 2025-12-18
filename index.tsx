@@ -139,6 +139,54 @@ async function handleTerminalSubmit(e: Event) {
 }
 
 // --- Render Helpers ---
+async function syncEvents() {
+  // Clear list and show loader
+  eventList.innerHTML = `
+    <div id="event-sync-container" class="space-y-4 p-8 border border-[#00ff41]/20 bg-black/40 rounded-sm font-mono text-sm">
+      <div class="flex items-center justify-between border-b border-[#00ff41]/10 pb-2">
+        <span class="text-[#00ff41] animate-pulse">SYNC_IN_PROGRESS</span>
+        <span id="sync-percent" class="text-cyan-400">0%</span>
+      </div>
+      <div id="event-sync-logs" class="space-y-1 text-xs text-[#00ff41]/60"></div>
+      <div class="w-full bg-[#00ff41]/5 h-1 relative overflow-hidden">
+        <div id="sync-progress-bar" class="absolute top-0 left-0 h-full bg-[#00ff41] transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+  `;
+
+  const logsContainer = document.getElementById('event-sync-logs')!;
+  const progressBar = document.getElementById('sync-progress-bar')!;
+  const percentLabel = document.getElementById('sync-percent')!;
+  
+  const steps = [
+    { msg: "OPENING_SOCKET: 174.174.0.1:8080", progress: 10 },
+    { msg: "HANDSHAKE_SUCCESSFUL (AES-256)", progress: 25 },
+    { msg: "DOWNLOADING_SECTOR_SLC_MANIFEST...", progress: 40 },
+    { msg: "INTEGRITY_CHECK: PASS", progress: 55 },
+    { msg: `DECRYPTING: ${EVENTS[0].title}...`, progress: 70 },
+    { msg: `DECRYPTING: ${EVENTS[1].title}...`, progress: 85 },
+    { msg: "RECONSTRUCTING_DOM_STREAM...", progress: 95 },
+    { msg: "SYNC_COMPLETE", progress: 100 }
+  ];
+
+  for (const step of steps) {
+    const div = document.createElement('div');
+    div.innerHTML = `<span class="opacity-40 mr-2">></span> ${step.msg}`;
+    logsContainer.appendChild(div);
+    
+    progressBar.style.width = `${step.progress}%`;
+    percentLabel.textContent = `${step.progress}%`;
+    
+    // Scroll to bottom of sync logs
+    logsContainer.scrollTop = logsContainer.scrollHeight;
+    
+    await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+  }
+  
+  await new Promise(r => setTimeout(r, 500));
+  renderEvents();
+}
+
 function renderEvents() {
   eventList.innerHTML = EVENTS.map(event => {
     const isSoldOut = event.status === 'SOLD_OUT';
@@ -200,7 +248,7 @@ function renderHeader() {
 // --- Initialization ---
 function initializeMain() {
   renderHeader();
-  renderEvents();
+  syncEvents();
   bulletinText.textContent = "Boot sequence complete. You’re connected to dnbOS — a live feed of Drum & Bass events and activity in Salt Lake City.";
   
   addTerminalLine('dnbOS [Version 1.0]', 'info');
