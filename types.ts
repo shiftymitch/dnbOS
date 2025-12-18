@@ -8,6 +8,7 @@ export interface EventData {
   description: string;
   price: string;
   status: 'ACTIVE' | 'SOLD_OUT' | 'CANCELLED';
+  ticketUrl: string;
 }
 
 export interface TerminalLine {
