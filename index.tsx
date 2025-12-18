@@ -125,8 +125,8 @@ function handleBpmChange(e: Event) {
     triggerMeltdown(input.value);
   } else {
     currentBpm = val;
-    addTerminalLine(`CLOCK_ADJUSTED: ${val.toFixed(2)} BPM`, 'success');
-    if (bpmCounter) bpmCounter.textContent = `${val.toFixed(2)} BPM`;
+    addTerminalLine(`CLOCK_ADJUSTED: ${val} BPM`, 'success');
+    if (bpmCounter) bpmCounter.textContent = `${val} BPM`;
     renderHeader(); // Re-render to update the input value
   }
 }
@@ -302,7 +302,7 @@ function renderHeader() {
     { label: 'CPU', value:  SYSTEM_SPECS.cpu },
     { label: 'NET', value: SYSTEM_SPECS.network },
     { label: 'SEC', value: 'ENCRYPTED' },
-    { label: 'BPM', value: `<input type="number" step="0.01" class="bpm-input" value="${currentBpm. toFixed(2)}" id="bpm-editor">` }
+    { label: 'BPM', value: `<input type="number" step="1" class="bpm-input" value="${currentBpm}" id="bpm-editor">` }
   ];
   specsHeader.innerHTML = specs.map(s => `
     <div class="flex items-center space-x-2">
