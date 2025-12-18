@@ -121,7 +121,7 @@ function renderEvents() {
             </div>
           </div>
           <div class="space-y-1">
-            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Decrypted Lineup:</p>
+            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup:</p>
             <div class="flex flex-wrap gap-2">
               ${event.lineup.map(artist => `
                 <span class="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">${artist}</span>
@@ -132,7 +132,7 @@ function renderEvents() {
           <div class="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
             <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'TERMINATED' : event.price}</div>
             <button ${isSoldOut ? 'disabled' : ''} class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all ${isSoldOut ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700' : 'bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)]'}">
-              ${isSoldOut ? 'SOLD OUT' : 'INITIATE PURCHASE'}
+              ${isSoldOut ? 'MEMORY FULL' : 'INITIATE PURCHASE'}
             </button>
           </div>
         </div>
