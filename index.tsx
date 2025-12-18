@@ -116,6 +116,7 @@ async function handleTerminalSubmit(e: Event) {
     addTerminalLine('- events: Re-sync and list all active operations', 'info');
     addTerminalLine('- audio: Toggle deck visibility', 'info');
     addTerminalLine('- play: Force playback start signal', 'info');
+    addTerminalLine('- pause: Pause audio playback', 'info');
     addTerminalLine('- clear: Flush terminal memory', 'info');
     addTerminalLine('- status: System health diagnostics', 'info');
     isProcessing = false;
@@ -137,6 +138,13 @@ async function handleTerminalSubmit(e: Event) {
       addTerminalLine('ERROR: AUDIO_INTERFACE_NOT_READY', 'error');
     }
     isProcessing = false;
+  } else if (userCommand === 'play') {
+    if (spotifyEmbed) {
+      spotifyEmbed.pause();
+      addTerminalLine('SIGNAL_SENT: PLAYBACK_PAUSED', 'success');
+    } else {
+      addTerminalLine('ERROR: AUDIO_NOT_PLAYING', 'error');
+    }
   } else if (userCommand === 'events') {
     addTerminalLine('INITIATING_REMOTE_SYNC_REQUEST...', 'system');
     await syncEvents();
