@@ -88,4 +88,3 @@ const Terminal: React.FC = () => {
 };
 
 export default Terminal;
-

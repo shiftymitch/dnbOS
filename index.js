@@ -2,15 +2,15 @@
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
 
 // --- UI Elements ---
-const bootScreen = document.getElementById('boot-screen') as HTMLElement;
-const bootLogs = document.getElementById('boot-logs') as HTMLElement;
-const mainUI = document.getElementById('main-ui') as HTMLElement;
-const terminalOutput = document.getElementById('terminal-output') as HTMLElement;
-const terminalForm = document.getElementById('terminal-form') as HTMLFormElement;
-const terminalInput = document.getElementById('terminal-input') as HTMLInputElement;
-const eventList = document.getElementById('event-list') as HTMLElement;
-const specsHeader = document.getElementById('system-specs-header') as HTMLElement;
-const bulletinText = document.getElementById('bulletin-text') as HTMLElement;
+const bootScreen = document.getElementById('boot-screen');
+const bootLogs = document.getElementById('boot-logs');
+const mainUI = document.getElementById('main-ui');
+const terminalOutput = document.getElementById('terminal-output');
+const terminalForm = document.getElementById('terminal-form');
+const terminalInput = document.getElementById('terminal-input');
+const eventList = document.getElementById('event-list');
+const specsHeader = document.getElementById('system-specs-header');
+const bulletinText = document.getElementById('bulletin-text');
 
 // --- State ---
 let isProcessing = false;
@@ -19,7 +19,7 @@ let isProcessing = false;
 async function startBoot() {
   const logs = [
     "dnbOS ROM BIOS v1.0",
-    "Copyright (C) 2025 dnbOS",
+    "Copyright (C) 2025 dnbOS SLC",
     `CPU: ${SYSTEM_SPECS.cpu}`,
     `RAM: ${SYSTEM_SPECS.ram} ... OK`,
     "Detecting Mass Storage Devices...",
@@ -39,19 +39,19 @@ async function startBoot() {
     p.className = 'animate-pulse';
     p.textContent = `[${new Date().toLocaleTimeString()}] ${log}`;
     bootLogs.appendChild(p);
-    await new Promise(r => setTimeout(r, Math.random() * 200 + 100));
+    await new Promise(r => setTimeout(r, Math.random() * 150 + 50));
   }
 
-  await new Promise(r => setTimeout(r, 1000));
+  await new Promise(r => setTimeout(r, 800));
   bootScreen.classList.add('hidden-ui');
   mainUI.classList.remove('hidden-ui');
   initializeMain();
 }
 
 // --- Terminal Logic ---
-function addTerminalLine(text: string, type = 'info') {
+function addTerminalLine(text, type = 'info') {
   const line = document.createElement('div');
-  const colors: Record<string, string> = {
+  const colors = {
     error: 'text-red-500',
     success: 'text-cyan-400',
     system: 'text-[#00ff41]',
@@ -64,7 +64,7 @@ function addTerminalLine(text: string, type = 'info') {
   terminalOutput.scrollTop = terminalOutput.scrollHeight;
 }
 
-async function handleTerminalSubmit(e: Event) {
+async function handleTerminalSubmit(e) {
   e.preventDefault();
   const input = terminalInput.value.trim();
   if (!input || isProcessing) return;
@@ -76,7 +76,7 @@ async function handleTerminalSubmit(e: Event) {
 
   if (userCommand === 'help') {
     addTerminalLine('AVAILABLE COMMANDS:', 'success');
-    addTerminalLine('- events: List upcoming dnbOS operations', 'info');
+    addTerminalLine('- events: List names and dates of all upcoming operations', 'info');
     addTerminalLine('- clear: Purge terminal buffer', 'info');
     addTerminalLine('- status: Check system health', 'info');
     addTerminalLine('- help: Display this help matrix', 'info');
@@ -88,16 +88,16 @@ async function handleTerminalSubmit(e: Event) {
     addTerminalLine('SYSTEM: OK | BPM: 174 | BASS_LOAD: 98% | TEMP: NOMINAL', 'success');
     isProcessing = false;
   } else if (userCommand === 'events') {
-    addTerminalLine('ACCESSING /usr/bin/events...', 'system');
+    addTerminalLine('READING_DIRECTORY: /usr/bin/events...', 'system');
     setTimeout(() => {
       EVENTS.forEach(event => {
-        addTerminalLine(`[${event.date}] ${event.title}`, 'info');
+        addTerminalLine(`> ${event.date} | ${event.title}`, 'info');
       });
-      addTerminalLine('DIRECTORY_SCAN_COMPLETE: ' + EVENTS.length + ' ENTRIES FOUND', 'success');
+      addTerminalLine(`TOTAL_ENTRIES_FOUND: ${EVENTS.length}`, 'success');
       isProcessing = false;
     }, 400);
   } else {
-    addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND.`, 'error');
+    addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND IN LOCAL REPOSITORY.`, 'error');
     isProcessing = false;
   }
 }
@@ -164,10 +164,10 @@ function renderHeader() {
 function initializeMain() {
   renderHeader();
   renderEvents();
-  bulletinText.textContent = "Attention all units: Critical density predicted at Sector Soundwell SLC for Neural Networks Vol 1. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected.";
+  bulletinText.textContent = "Attention all units: Critical density predicted at Sector SLC Metro Hall for Neural Networks Vol 1. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected.";
   
-  addTerminalLine('dnbOS [Version 1.0]', 'info');
-  addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
+  addTerminalLine('dnbOS [Version 2.5.0-flash]', 'info');
+  addTerminalLine('(c) 2025 Sector SLC Intelligence. All rights reserved.', 'info');
   addTerminalLine('');
   addTerminalLine('Type "help" for a list of system commands.', 'success');
   

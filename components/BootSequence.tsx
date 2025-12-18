@@ -66,4 +66,3 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
 };
 
 export default BootSequence;
-
