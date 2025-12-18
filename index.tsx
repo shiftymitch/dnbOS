@@ -1,4 +1,3 @@
-
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
 
 // --- UI Elements ---
@@ -33,7 +32,10 @@ function mountSpotifyPlayer() {
   }
 
   const element = document.getElementById('spotify-player-mount');
-  if (!element) return;
+  if (!element) {
+    addTerminalLine('SYSTEM: AUDIO_MOUNT_NODE_NOT_FOUND', 'error');
+    return;
+  }
 
   const options = {
     width: '100%',
@@ -45,6 +47,7 @@ function mountSpotifyPlayer() {
     spotifyEmbed = EmbedController;
     addTerminalLine('DECK_01: AUDIO_IFRAME_SYNC_COMPLETE', 'success');
   });
+}
 
 // --- Boot Sequence ---
 async function startBoot() {
@@ -209,4 +212,3 @@ function initializeMain() {
 
 // Start
 startBoot();
-
