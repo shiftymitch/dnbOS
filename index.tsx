@@ -164,7 +164,7 @@ function renderHeader() {
 function initializeMain() {
   renderHeader();
   renderEvents();
-  bulletinText.textContent = "Attention all units: Critical density predicted at Sector Soundwell SLC for Neural Networks Vol 1. Ensure parity bits are synchronized to 174BPM. Audio artifacts are expected.";
+  bulletinText.textContent = "Welcome, user. dnbOS monitors Drum & Bass transmissions, upcoming events, and local scene activity. New sessions begin below.";
   
   addTerminalLine('dnbOS [Version 1.0]', 'info');
   addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
