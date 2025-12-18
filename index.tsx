@@ -58,7 +58,7 @@ async function startBoot() {
   bootScreen.classList.remove('hidden-ui');
   bootLogs.innerHTML = '';
   terminalOutput.innerHTML = '';
-  currentBpm = 174.0;
+  currentBpm = 174;
   
   const logs = [
     "dnbOS ROM BIOS v1.0",
@@ -72,7 +72,7 @@ async function startBoot() {
     `Loading Kernel ${SYSTEM_SPECS.kernel}...`,
     "Mounting /dev/drums",
     "Mounting /dev/bass",
-    "Synchronizing Clock to 174.00 BPM",
+    "Synchronizing Clock to 174 BPM",
     "Initializing User Interface...",
     "DECK_01: STANDBY",
     "READY."
