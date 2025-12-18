@@ -309,6 +309,15 @@
         } else {
           bind();
         }
+
+        // Random Color on Page Load
+        const el = document.getElementById('main-ui')
+        if (!el) return
+    
+        const deg = Math.floor(Math.random() * 360)
+        const className = `hue-rotate-[${deg}deg]`
+    
+        el.classList.add(className)
       })();
     </script>
 </body>
