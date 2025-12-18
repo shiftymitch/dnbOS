@@ -28,7 +28,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
         </div>
 
         <div className="space-y-1">
-          <p className="text-xs text-[#00ff41]/60 font-mono uppercase">Decrypted Lineup:</p>
+          <p className="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup:</p>
           <div className="flex flex-wrap gap-2">
             {event.lineup.map((artist, idx) => (
               <span key={idx} className="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">
@@ -44,7 +44,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
         <div className="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
           <div className="text-lg font-bold text-white font-mono">
-            {isSoldOut ? 'TERMINATED' : event.price}
+            {isSoldOut ? 'MEMORY FULL' : event.price}
           </div>
           <button
             disabled={isSoldOut}
