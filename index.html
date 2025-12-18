@@ -191,6 +191,25 @@
               </form>
             </div>
           </div>
+
+          <!-- Spotify Media Deck -->
+          <div id="media-deck" class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-mono text-[#00ff41]">
+              <span>DECK_01 // AUDIO_INTERFACE</span>
+              <div class="flex items-center space-x-2">
+                <span id="bpm-counter" class="text-cyan-400">174.00 BPM</span>
+                <span class="w-2 h-2 bg-[#00ff41] rounded-full animate-ping"></span>
+              </div>
+            </div>
+            <div id="spotify-container" class="rounded p-2 transition-all duration-500 overflow-hidden">
+              <div id="spotify-player-mount"></div>
+              <div class="mt-2 flex justify-between items-center px-1 text-[10px] font-mono text-[#00ff41]/40 uppercase italic">
+                <span>Signal: High</span>
+                <span>Latency: 12ms</span>
+                <span>Buffer: Stable</span>
+              </div>
+            </div>
+          </div>
           
           <div class="p-4 border border-dashed border-[#00ff41]/30 rounded-sm bg-[#00ff41]/5">
             <h4 class="text-[#00ff41] text-xs font-bold mb-2 uppercase tracking-tighter flex flex-row items-center whitespace-nowrap">
