@@ -70,7 +70,7 @@ async function handleTerminalSubmit(e: Event) {
   if (!input || isProcessing) return;
 
   const userCommand = input.toLowerCase();
-  addTerminalLine(`guest@dnbos:~$ ${input}`, 'input');
+  addTerminalLine(`guest@dnbos > ${input}`, 'input');
   terminalInput.value = '';
   isProcessing = true;
 
