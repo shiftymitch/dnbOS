@@ -138,7 +138,7 @@ async function handleTerminalSubmit(e: Event) {
       addTerminalLine('ERROR: AUDIO_INTERFACE_NOT_READY', 'error');
     }
     isProcessing = false;
-  } else if (userCommand === 'play') {
+  } else if (userCommand === 'pause') {
     if (spotifyEmbed) {
       spotifyEmbed.pause();
       addTerminalLine('SIGNAL_SENT: PLAYBACK_PAUSED', 'success');
