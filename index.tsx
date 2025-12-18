@@ -11,23 +11,23 @@ const eventList = document.getElementById('event-list') as HTMLElement;
 const specsHeader = document.getElementById('system-specs-header') as HTMLElement;
 const bulletinText = document.getElementById('bulletin-text') as HTMLElement;
 const mediaDeck = document.getElementById('media-deck') as HTMLElement;
+const bpmCounter = document.getElementById('bpm-counter') as HTMLElement;
 
 // --- State ---
 let isProcessing = false;
 let spotifyEmbed: any = null;
 let spotifyAPI: any = null;
+let currentBpm = 174.0;
 
 // --- Spotify Global Hook ---
 // We attach this to window immediately so the async script finds it regardless of boot progress
 (window as any).onSpotifyIframeApiReady = (IFrameAPI: any) => {
   spotifyAPI = IFrameAPI;
-  console.log('dnbOS: Spotify API Ready');
 };
 
 // --- Spotify Player Mount ---
 function mountSpotifyPlayer() {
   if (!spotifyAPI) {
-    addTerminalLine('SYSTEM: WAITING_FOR_AUDIO_SUBSYSTEM...', 'info');
     setTimeout(mountSpotifyPlayer, 500);
     return;
   }
@@ -52,6 +52,14 @@ function mountSpotifyPlayer() {
 
 // --- Boot Sequence ---
 async function startBoot() {
+  // Reset UI State for reboots
+  mainUI.classList.add('hidden-ui');
+  mainUI.classList.remove('meltdown');
+  bootScreen.classList.remove('hidden-ui');
+  bootLogs.innerHTML = '';
+  terminalOutput.innerHTML = '';
+  currentBpm = 174.0;
+  
   const logs = [
     "dnbOS ROM BIOS v1.0",
     "Copyright (C) 2025 dnbOS",
@@ -75,7 +83,7 @@ async function startBoot() {
     p.className = 'animate-pulse';
     p.textContent = `[${new Date().toLocaleTimeString()}] ${log}`;
     bootLogs.appendChild(p);
-    await new Promise(r => setTimeout(r, Math.random() * 60 + 30));
+    await new Promise(r => setTimeout(r, Math.random() * 80 + 40));
   }
 
   await new Promise(r => setTimeout(r, 500));
@@ -83,6 +91,44 @@ async function startBoot() {
   mainUI.classList.remove('hidden-ui');
   initializeMain();
   mountSpotifyPlayer();
+}
+
+// --- Meltdown Logic ---
+async function triggerMeltdown(invalidValue: string) {
+  isProcessing = true;
+  mainUI.classList.add('meltdown');
+  addTerminalLine(`CRITICAL: CLOCK_OUT_OF_SYNC (${invalidValue} BPM)`, 'error');
+  addTerminalLine("ERROR: PARITY_BIT_MISMATCH", 'error');
+  addTerminalLine("WARNING: CORE_TEMPERATURE_CRITICAL", 'error');
+  addTerminalLine("FATAL: KERNEL_PANIC_DNB_RTOS", 'error');
+
+  // Flood terminal
+  const flood = setInterval(() => {
+    addTerminalLine(`STACK_DUMP: 0x${Math.floor(Math.random()*16777215).toString(16).toUpperCase()}`, 'error');
+  }, 50);
+
+  await new Promise(r => setTimeout(r, 2500));
+  clearInterval(flood);
+  isProcessing = false;
+  startBoot(); // Reboot
+}
+
+// --- BPM Management ---
+function handleBpmChange(e: Event) {
+  const input = e.target as HTMLInputElement;
+  const val = parseFloat(input.value);
+  
+  // Valid ranges: 172-176 OR 86-88
+  const isValid = (val >= 172 && val <= 176) || (val >= 86 && val <= 88);
+
+  if (!isValid) {
+    triggerMeltdown(input.value);
+  } else {
+    currentBpm = val;
+    addTerminalLine(`CLOCK_ADJUSTED: ${val.toFixed(2)} BPM`, 'success');
+    if (bpmCounter) bpmCounter.textContent = `${val.toFixed(2)} BPM`;
+    renderHeader(); // Re-render to update the input value
+  }
 }
 
 // --- Terminal Logic ---
@@ -118,13 +164,16 @@ async function handleTerminalSubmit(e: Event) {
     addTerminalLine('- play: Force playback start signal', 'info');
     addTerminalLine('- pause: Pause audio playback', 'info');
     addTerminalLine('- clear: Flush terminal memory', 'info');
-    addTerminalLine('- status: System health diagnostics', 'info');
+    addTerminalLine('- status: Diagnostics', 'info');
+    addTerminalLine('- reboot: Manual system reset', 'info');
     isProcessing = false;
+  } else if (userCommand === 'reboot') {
+    startBoot();
   } else if (userCommand === 'clear') {
     terminalOutput.innerHTML = '';
     isProcessing = false;
   } else if (userCommand === 'status') {
-    addTerminalLine('SYSTEM: NOMINAL | BPM: 174 | LATENCY: LOW', 'success');
+    addTerminalLine(`SYSTEM: NOMINAL | BPM: ${currentBpm} | TEMP: 32C`, 'success');
     isProcessing = false;
   } else if (userCommand === 'audio') {
     mediaDeck.classList.toggle('hidden');
@@ -155,7 +204,7 @@ async function handleTerminalSubmit(e: Event) {
   }
 }
 
-// --- Render Helpers ---
+// --- Sync & Render Helpers ---
 async function syncEvents() {
   // Clear list and show loader
   eventList.innerHTML = `
@@ -252,7 +301,7 @@ function renderHeader() {
     { label: 'CPU', value: SYSTEM_SPECS.cpu },
     { label: 'NET', value: SYSTEM_SPECS.network },
     { label: 'SEC', value: 'ENCRYPTED' },
-    { label: 'BPM', value: '174.00' }
+    { label: 'BPM', value: `<input type="number" step="0.01" class="bpm-input" value="${currentBpm.toFixed(2)}" id="bpm-editor">` }
   ];
   specsHeader.innerHTML = specs.map(s => `
     <div class="flex items-center space-x-2">
@@ -260,6 +309,15 @@ function renderHeader() {
       <span>${s.value}</span>
     </div>
   `).join('');
+  
+  const editor = document.getElementById('bpm-editor') as HTMLInputElement;
+  if (editor) {
+    editor.addEventListener('blur', handleBpmChange);
+    editor.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        editor.blur();
+      }
+    });
 }
 
 // --- Initialization ---
