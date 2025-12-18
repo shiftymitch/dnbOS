@@ -111,27 +111,35 @@ async function handleTerminalSubmit(e: Event) {
   isProcessing = true;
 
   if (userCommand === 'help') {
-    addTerminalLine('AVAILABLE COMMANDS:', 'success');
-    addTerminalLine('- events: List upcoming dnbOS operations', 'info');
-    addTerminalLine('- clear: Purge terminal buffer', 'info');
-    addTerminalLine('- status: Check system health', 'info');
-    addTerminalLine('- help: Display this help matrix', 'info');
+    addTerminalLine('SYSTEM COMMAND MATRIX:', 'success');
+    addTerminalLine('- events: Re-sync and list all active operations', 'info');
+    addTerminalLine('- audio: Toggle deck visibility', 'info');
+    addTerminalLine('- play: Force playback start signal', 'info');
+    addTerminalLine('- clear: Flush terminal memory', 'info');
+    addTerminalLine('- status: System health diagnostics', 'info');
     isProcessing = false;
   } else if (userCommand === 'clear') {
-    terminalOutput.innerHTML = 'Type "help" for a list of actions...';
+    terminalOutput.innerHTML = '';
     isProcessing = false;
   } else if (userCommand === 'status') {
-    addTerminalLine('SYSTEM: OK | BPM: 174 | BASS_LOAD: 98% | TEMP: NOMINAL', 'success');
+    addTerminalLine('SYSTEM: NOMINAL | BPM: 174 | LATENCY: LOW', 'success');
+    isProcessing = false;
+  } else if (userCommand === 'audio') {
+    mediaDeck.classList.toggle('hidden');
+    addTerminalLine(`DECK_01_VISIBILITY: ${mediaDeck.classList.contains('hidden') ? 'OFF' : 'ON'}`, 'system');
+    isProcessing = false;
+  } else if (userCommand === 'play') {
+    if (spotifyEmbed) {
+      spotifyEmbed.play();
+      addTerminalLine('SIGNAL_SENT: PLAYBACK_INITIATED', 'success');
+    } else {
+      addTerminalLine('ERROR: AUDIO_INTERFACE_NOT_READY', 'error');
+    }
     isProcessing = false;
   } else if (userCommand === 'events') {
-    addTerminalLine('ACCESSING /usr/bin/events...', 'system');
-    setTimeout(() => {
-      EVENTS.forEach(event => {
-        addTerminalLine(`[${event.date}] ${event.title}`, 'info');
-      });
-      addTerminalLine('DIRECTORY_SCAN_COMPLETE: ' + EVENTS.length + ' ENTRIES FOUND', 'success');
-      isProcessing = false;
-    }, 400);
+    addTerminalLine('INITIATING_REMOTE_SYNC_REQUEST...', 'system');
+    await syncEvents();
+    isProcessing = false;
   } else {
     addTerminalLine(`ERROR: COMMAND "${input.toUpperCase()}" NOT FOUND.`, 'error');
     isProcessing = false;
