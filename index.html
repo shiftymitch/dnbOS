@@ -176,14 +176,16 @@
               <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1 mb-4 scrollbar-hide"></div>
               <form id="terminal-form" class="flex border-t border-[#00ff41]/20 pt-2">
                 <span class="text-[#00ff41] mr-2">guest@dnbos > </span>
-                <input
-                  id="terminal-input"
-                  type="text"
-                  class="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700 caret-transparent"
-                  placeholder="Enter command..."
-                  autocomplete="off"
-                />
-                <span class="terminal-caret"></span>
+                <div class="relative font-mono text-sm text-[#00ff41]">
+                  <input
+                    id="terminal-input"
+                    type="text"
+                    class="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700 caret-transparent"
+                    placeholder="Enter command..."
+                    autocomplete="off"
+                  />
+                  <span class="terminal-caret"></span>
+                </div>
               </form>
             </div>
           </div>
