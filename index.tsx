@@ -1,5 +1,12 @@
 import { EVENTS, SYSTEM_SPECS } from './eventData.js';
 
+interface Track {
+  title: string;
+  artist: string;
+  duration: string;
+  bitrate: string;
+}
+
 // --- UI Elements ---
 const bootScreen = document.getElementById('boot-screen') as HTMLElement;
 const bootLogs = document.getElementById('boot-logs') as HTMLElement;
@@ -11,43 +18,132 @@ const eventList = document.getElementById('event-list') as HTMLElement;
 const specsHeader = document.getElementById('system-specs-header') as HTMLElement;
 const bulletinText = document.getElementById('bulletin-text') as HTMLElement;
 const mediaDeck = document.getElementById('media-deck') as HTMLElement;
+const audioDeckContent = document.getElementById('audio-deck-content') as HTMLElement;
 const bpmCounter = document.getElementById('bpm-counter') as HTMLElement;
 
 // --- State ---
 let isProcessing = false;
-let spotifyEmbed: any = null;
-let spotifyAPI: any = null;
 let currentBpm = 174.0;
 
-// --- Spotify Global Hook ---
-// We attach this to window immediately so the async script finds it regardless of boot progress
-(window as any).onSpotifyIframeApiReady = (IFrameAPI: any) => {
-  spotifyAPI = IFrameAPI;
-};
+let playlist: Track[] = [];
+let currentTrackIndex = 0;
+let isPlaying = false;
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-// --- Spotify Player Mount ---
-function mountSpotifyPlayer() {
-  if (!spotifyAPI) {
-    setTimeout(mountSpotifyPlayer, 500);
-    return;
+// --- Spotify Web API Integration (Simulated via Gemini) ---
+async function fetchSpotifyPlaylist() {
+  addTerminalLine("SPOTIFY_API: INITIATING_OAUTH_HANDSHAKE...", "system");
+  
+  try {
+    const lineupContext = EVENTS.flatMap(e => e.lineup).join(', ');
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: `Generate a list of 5 legendary Drum & Bass tracks related to this artist lineup: ${lineupContext}. Output must be in JSON.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              title: { type: Type.STRING },
+              artist: { type: Type.STRING },
+              duration: { type: Type.STRING },
+              bitrate: { type: Type.STRING },
+            },
+            required: ["title", "artist", "duration", "bitrate"]
+          }
+        }
+      }
+    });
+
+    playlist = JSON.parse(response.text);
+    addTerminalLine(`SPOTIFY_API: SYNC_COMPLETE. ${playlist.length} TRACKS BUFFERED.`, "success");
+    renderAudioDeck();
+  } catch (error) {
+    console.error("Audio Sync Failed", error);
+    addTerminalLine("ERROR: SPOTIFY_API_CONNECTION_REFUSED", "error");
+    // Fallback playlist
+    playlist = [
+      { title: "The Nine", artist: "Bad Company UK", duration: "7:03", bitrate: "320kbps" },
+      { title: "Messiah", artist: "Konflict", duration: "7:51", bitrate: "320kbps" }
+    ];
+    renderAudioDeck();
   }
+}
 
-  const element = document.getElementById('spotify-player-mount');
-  if (!element) {
-    addTerminalLine('SYSTEM:  AUDIO_MOUNT_NODE_NOT_FOUND', 'error');
-    return;
-  }
+function renderAudioDeck() {
+  if (playlist.length === 0) return;
+  const track = playlist[currentTrackIndex];
+  
+  audioDeckContent.innerHTML = `
+    <div class="flex items-center space-x-4">
+      <div class="w-16 h-16 bg-[#00ff41]/10 border border-[#00ff41]/30 flex items-center justify-center relative">
+        <div class="text-[8px] absolute top-1 left-1 opacity-50">PCM</div>
+        <div class="text-xl font-bold text-[#00ff41] flicker">${isPlaying ? '▶' : '||'}</div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="text-[10px] text-cyan-400 font-mono tracking-widest uppercase mb-1">Now Streaming_</div>
+        <div class="text-lg font-bold text-white truncate leading-tight">${track.title}</div>
+        <div class="text-xs text-[#00ff41]/60 truncate uppercase">${track.artist}</div>
+      </div>
+    </div>
+    
+    <div class="space-y-1">
+      <div class="flex justify-between text-[10px] font-mono text-[#00ff41]/40 uppercase">
+        <span>${track.bitrate}</span>
+        <span>44.1khz / stereo</span>
+        <span>${track.duration}</span>
+      </div>
+      <div class="h-12 w-full flex items-end justify-between border-b border-[#00ff41]/20 pb-1" id="frequency-analyzer">
+        ${Array.from({ length: 40 }).map(() => `<div class="bar" style="height: ${Math.random() * 100}%"></div>`).join('')}
+      </div>
+    </div>
 
-  const options = {
-    width: '100%',
-    height: '152',
-    uri: 'spotify:playlist:2iLwOjiPrh9CpRyN6vfyvv?theme=0',
-    allow: 'autoplay',
-  };
+    <div class="flex justify-between items-center gap-2">
+      <div class="flex gap-2">
+        <button id="deck-prev" class="px-3 py-1 border border-[#00ff41]/30 hover:bg-[#00ff41]/10 text-[10px] font-mono uppercase">PREV</button>
+        <button id="deck-play" class="px-6 py-1 border border-[#00ff41] bg-[#00ff41]/10 hover:bg-[#00ff41]/30 text-[10px] font-mono uppercase font-bold">${isPlaying ? 'PAUSE' : 'PLAY'}</button>
+        <button id="deck-next" class="px-3 py-1 border border-[#00ff41]/30 hover:bg-[#00ff41]/10 text-[10px] font-mono uppercase">NEXT</button>
+      </div>
+      <div class="text-[10px] font-mono text-cyan-400 opacity-70">BUF_LEVEL: 100%</div>
+    </div>
+  `;
 
-  spotifyAPI.createController(element, options, (EmbedController: any) => {
-    spotifyEmbed = EmbedController;
-  });
+  // Bind controls
+  document.getElementById('deck-play')?.addEventListener('click', togglePlayback);
+  document.getElementById('deck-next')?.addEventListener('click', () => changeTrack(1));
+  document.getElementById('deck-prev')?.addEventListener('click', () => changeTrack(-1));
+
+  if (isPlaying) startAnalyzerAnimation();
+}
+
+function togglePlayback() {
+  isPlaying = !isPlaying;
+  addTerminalLine(`AUDIO_DECK: ${isPlaying ? 'RESUMING_STREAM' : 'STREAM_SUSPENDED'}`, "system");
+  renderAudioDeck();
+}
+
+function changeTrack(dir: number) {
+  currentTrackIndex = (currentTrackIndex + dir + playlist.length) % playlist.length;
+  addTerminalLine(`AUDIO_DECK: SKIPPING_TO_NODE_${currentTrackIndex}`, "system");
+  renderAudioDeck();
+}
+
+let analyzerInterval: number | null = null;
+function startAnalyzerAnimation() {
+  if (analyzerInterval) clearInterval(analyzerInterval);
+  const bars = document.querySelectorAll('.bar');
+  analyzerInterval = window.setInterval(() => {
+    if (!isPlaying) {
+      clearInterval(analyzerInterval!);
+      return;
+    }
+    bars.forEach(bar => {
+      const h = Math.random() * 100;
+      (bar as HTMLElement).style.height = `${h}%`;
+    });
+  }, 100);
 }
 
 // --- Boot Sequence ---
@@ -67,14 +163,14 @@ async function startBoot() {
     `RAM: ${SYSTEM_SPECS. ram} ... OK`,
     "Detecting Mass Storage Devices...",
     "Primary Master: BASS-DRIVE-500GB",
-    "Secondary Master: AMEN-BREAK-CDROM",
+    "Initializing Neural Audio Subsystem...",
+    "Handshaking with Spotify Web API...",
     "Memory Test:  1048576K OK",
     `Loading Kernel ${SYSTEM_SPECS.kernel}...`,
     "Mounting /dev/drums",
     "Mounting /dev/bass",
     "Synchronizing Clock to 174 BPM",
     "Initializing User Interface...",
-    "DECK_01: STANDBY",
     "READY."
   ];
 
@@ -90,12 +186,13 @@ async function startBoot() {
   bootScreen.classList.add('hidden-ui');
   mainUI.classList.remove('hidden-ui');
   initializeMain();
-  mountSpotifyPlayer();
+  fetchSpotifyPlaylist();
 }
 
 // --- Meltdown Logic ---
 async function triggerMeltdown(invalidValue:  string) {
   isProcessing = true;
+  isPlaying = false;
   mainUI.classList.add('meltdown');
   addTerminalLine(`CRITICAL:  CLOCK_OUT_OF_SYNC (${invalidValue} BPM)`, 'error');
   addTerminalLine("ERROR: PARITY_BIT_MISMATCH", 'error');
@@ -110,7 +207,7 @@ async function triggerMeltdown(invalidValue:  string) {
   await new Promise(r => setTimeout(r, 2500));
   clearInterval(flood);
   isProcessing = false;
-  startBoot(); // Reboot
+  startBoot(); 
 }
 
 // --- BPM Management ---
@@ -127,7 +224,7 @@ function handleBpmChange(e: Event) {
     currentBpm = val;
     addTerminalLine(`CLOCK_ADJUSTED: ${val} BPM`, 'success');
     if (bpmCounter) bpmCounter.textContent = `${val} BPM`;
-    renderHeader(); // Re-render to update the input value
+    renderHeader(); 
   }
 }
 
