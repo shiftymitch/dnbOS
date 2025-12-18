@@ -1,4 +1,4 @@
-import { EVENTS, SYSTEM_SPECS } from './eventData. js';
+import { EVENTS, SYSTEM_SPECS } from './eventData.js';
 
 // --- UI Elements ---
 const bootScreen = document.getElementById('boot-screen') as HTMLElement;
