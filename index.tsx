@@ -10,6 +10,7 @@ const terminalInput = document.getElementById('terminal-input') as HTMLInputElem
 const eventList = document.getElementById('event-list') as HTMLElement;
 const specsHeader = document.getElementById('system-specs-header') as HTMLElement;
 const bulletinText = document.getElementById('bulletin-text') as HTMLElement;
+const mediaDeck = document.getElementById('media-deck') as HTMLElement;
 
 // --- State ---
 let isProcessing = false;
