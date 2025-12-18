@@ -81,6 +81,26 @@
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
+
+      .terminal-caret {
+        position: absolute;
+        left: 0;
+        bottom: 0.1em;
+        width: 0.6em;
+        height: 0.15em;
+        background: #00ff41;
+        animation: blink 1s steps(1) infinite;
+        pointer-events: none;
+        opacity: 0;
+      }
+      
+      #terminal-input:focus + .terminal-caret {
+        opacity: 1;
+      }
+      
+      @keyframes blink {
+        50% { opacity: 0; }
+      }
     </style>
   <script type="importmap">
 {
@@ -141,13 +161,14 @@
                   placeholder="Enter command..."
                   autocomplete="off"
                 />
+                <span class="terminal-caret"></span>
               </form>
             </div>
           </div>
           
           <div class="p-4 border border-dashed border-[#00ff41]/30 rounded-sm bg-[#00ff41]/5">
             <h4 class="text-[#00ff41] text-xs font-bold mb-2 uppercase tracking-tighter flex items-center">
-              <span class="w-2 h-2 bg-[#00ff41] rounded-full mr-2 animate-ping" />
+              <span class="w-2 h-2 rounded-full mr-2" />
               SLC Scene Bulletin
             </h4>
             <p id="bulletin-text" class="text-xs text-gray-400 leading-relaxed font-mono">
