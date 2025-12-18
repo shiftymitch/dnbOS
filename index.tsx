@@ -45,7 +45,6 @@ function mountSpotifyPlayer() {
 
   spotifyAPI.createController(element, options, (EmbedController: any) => {
     spotifyEmbed = EmbedController;
-    addTerminalLine('DECK_01: AUDIO_IFRAME_SYNC_COMPLETE', 'success');
   });
 }
 
