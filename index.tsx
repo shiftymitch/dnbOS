@@ -121,7 +121,7 @@ function renderEvents() {
             </div>
           </div>
           <div class="space-y-1">
-            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Support Lineup:</p>
+            <p class="text-xs text-[#00ff41]/60 font-mono uppercase">Decrypted Lineup:</p>
             <div class="flex flex-wrap gap-2">
               ${event.lineup.map(artist => `
                 <span class="bg-[#00ff41]/10 text-[#00ff41] px-2 py-1 text-xs border border-[#00ff41]/30">${artist}</span>
@@ -130,11 +130,10 @@ function renderEvents() {
           </div>
           <p class="text-gray-400 text-sm italic">&gt; ${event.description}</p>
           <div class="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
-            <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'MEMORY FULL' : event.price}</div>
-            ${isSoldOut ? 
-              `<button disabled class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700">SOLD OUT</button>` :
-              `<a href="${event.ticketUrl}" target="_blank" rel="noopener noreferrer" class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)] text-center">INITIATE PURCHASE</a>`
-            }
+            <div class="text-lg font-bold text-white font-mono">${isSoldOut ? 'TERMINATED' : event.price}</div>
+            <button ${isSoldOut ? 'disabled' : ''} class="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all ${isSoldOut ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700' : 'bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)]'}">
+              ${isSoldOut ? 'SOLD OUT' : 'INITIATE PURCHASE'}
+            </button>
           </div>
         </div>
         <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#00ff41]/50"></div>
@@ -165,7 +164,7 @@ function renderHeader() {
 function initializeMain() {
   renderHeader();
   renderEvents();
-  bulletinText.textContent = "Welcome, user. dnbOS monitors Drum & Bass transmissions, upcoming events, and local scene activity. New sessions begin below.";
+  bulletinText.textContent = "Boot sequence complete. You’re connected to dnbOS — a live feed of Drum & Bass events and activity in Salt Lake City.";
   
   addTerminalLine('dnbOS [Version 1.0]', 'info');
   addTerminalLine('(c) 2025 dnbOS. All rights reserved.', 'info');
@@ -177,3 +176,4 @@ function initializeMain() {
 
 // Start
 startBoot();
+
