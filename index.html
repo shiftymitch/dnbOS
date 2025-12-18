@@ -115,7 +115,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css" />
 </head>
   <body>
     <!-- Boot Screen -->
@@ -129,34 +128,34 @@
 
     <!-- Main Content -->
     <div id="main-ui" class="hidden-ui min-h-screen p-4 md:p-8 flex flex-col items-center">
-      <header class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
+      <header class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
         <div>
           <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-[#00ff41] flicker">
-            dnbOS<span class="text-xs align-super opacity-50 ml-1">v1.0</span>
+            dnbOS<span class="text-xs align-super opacity-50 ml-1">v 1 . 0</span>
           </h1>
           <p class="text-sm font-mono text-[#00ff41]/70 uppercase tracking-widest">
-            Drum & Bass // 
-            <br> Operating System
+            Drum & Bass 
+            <br>Operating System
           </p>
         </div>
-        <div id="system-specs-header" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-mono uppercase text-[#00ff41]/60">
+        <div id="system-specs-header" class="grid grid-cols-1 md:grid-cols-4 gap-1 text-[10px] font-mono uppercase text-[#00ff41]/60">
           <!-- Specs injected via JS -->
         </div>
       </header>
 
       <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8">
         <!-- Terminal Column -->
-        <section class="lg:col-span-5 space-y-6">
+        <section class="hidden md:block lg:col-span-5 space-y-6">
           <div class="space-y-2">
             <div class="flex items-center justify-between text-xs font-mono text-[#00ff41]">
-              <span>SYSTEM_CONSOL_V03</span>
+              <span>SYSTEM_CONSOL_V01</span>
               <span class="animate-pulse">ONLINE</span>
             </div>
             
             <div id="terminal-container" class="bg-black/80 border border-[#00ff41]/30 rounded p-4 h-[400px] flex flex-col font-mono text-sm md:text-base shadow-[0_0_20px_rgba(0,255,65,0.1)]">
               <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1 mb-4 scrollbar-hide"></div>
               <form id="terminal-form" class="flex border-t border-[#00ff41]/20 pt-2">
-                <span class="text-[#00ff41] mr-2">guest@dnbos:~$</span>
+                <span class="text-[#00ff41] mr-2">guest@dnbos > </span>
                 <input
                   id="terminal-input"
                   type="text"
@@ -164,6 +163,7 @@
                   placeholder="Enter command..."
                   autocomplete="off"
                 />
+                
               </form>
             </div>
           </div>
@@ -204,9 +204,9 @@
         <div class="flex flex-col md:flex-row justify-between items-center text-[10px] font-mono text-[#00ff41]/40 uppercase tracking-widest gap-4">
           <span>&copy; 2025 dnbOS</span>
           <div class="flex space-x-6">
-            <button class="hover:text-[#00ff41] transition-colors">INSTAGRAM_API</button>
-            <button class="hover:text-[#00ff41] transition-colors">DISCORD_SERVER</button>
-            <button class="hover:text-[#00ff41] transition-colors">SOUND_REP</button>
+            <button class="hover:text-[#00ff41] transition-colors">INSTAGRAM</button>
+            <button class="hover:text-[#00ff41] transition-colors">FACEBOOK</button>
+            <button class="hover:text-[#00ff41] transition-colors">TIKTOK</button>
           </div>
           <span>Built for the Underground</span>
         </div>
@@ -216,8 +216,6 @@
     <div class="crt-overlay"></div>
     <div class="scanline"></div>
 
-    <script type="module" src="/index.js"></script>
     <script type="module" src="/index.tsx"></script>
 </body>
 </html>
-
