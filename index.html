@@ -206,7 +206,6 @@
               <span>DECK_01 // AUDIO_INTERFACE</span>
               <div class="flex items-center space-x-2">
                 <span id="bpm-counter" class="text-cyan-400">174.00 BPM</span>
-                <span class="w-2 h-2 bg-[#00ff41] rounded-full animate-ping"></span>
               </div>
             </div>
             <div id="spotify-container" class="rounded p-2 transition-all duration-500 overflow-hidden">
@@ -289,7 +288,7 @@
 
           // Measure the rendered text width and move the caret to the end, plus 1ch
           const textWidth = mirror.getBoundingClientRect().width;
-          caret.style.transform = `translateX(calc(${textWidth}px + 1ch))`;
+          caret.style.transform = `translateX(calc(${textWidth}px))`;
         }
 
         function bind() {
