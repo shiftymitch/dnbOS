@@ -117,7 +117,7 @@ async function handleTerminalSubmit(e: Event) {
     addTerminalLine('- help: Display this help matrix', 'info');
     isProcessing = false;
   } else if (userCommand === 'clear') {
-    terminalOutput.innerHTML = '';
+    terminalOutput.innerHTML = 'Type "help" for a list of actions...';
     isProcessing = false;
   } else if (userCommand === 'status') {
     addTerminalLine('SYSTEM: OK | BPM: 174 | BASS_LOAD: 98% | TEMP: NOMINAL', 'success');
