@@ -1,10 +1,33 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>dnbOS | SLC Drum & Bass</title>
+
+    <title>dnbOS | SLC Drum & Bass Events & Scene Bulletin</title>
+    <meta name="description" content="dnbOS is a Salt Lake City Drum & Bass event feed and scene bulletin—active operations, upcoming shows, and underground signals." />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="https://dnbos.net/" />
+
+    <meta name="theme-color" content="#050505" />
+    <meta name="color-scheme" content="dark" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="dnbOS" />
+    <meta property="og:title" content="dnbOS | SLC Drum & Bass" />
+    <meta property="og:description" content="Active operations for Salt Lake City Drum & Bass—events, scene bulletin, and underground signals." />
+    <meta property="og:url" content="https://dnbos.net/" />
+    <meta property="og:image" content="https://dnbos.net/assets/img/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="dnbOS | SLC Drum & Bass" />
+    <meta name="twitter:description" content="Active operations for Salt Lake City Drum & Bass—events, scene bulletin, and underground signals." />
+    <meta name="twitter:image" content="https://dnbos.net/assets/img/og.jpg" />
+
+    <link rel="icon" href="/assets/img/favicon.jpg" type="image/jpg" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,26 +104,6 @@
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
-
-      .terminal-caret {
-        position: absolute;
-        left: 0;
-        bottom: 0.1em;
-        width: 0.6em;
-        height: 0.15em;
-        background: #00ff41;
-        animation: blink 1s steps(1) infinite;
-        pointer-events: none;
-        opacity: 0;
-      }
-      
-      #terminal-input:focus + .terminal-caret {
-        opacity: 1;
-      }
-      
-      @keyframes blink {
-        50% { opacity: 0; }
-      }
     </style>
   <script type="importmap">
 {
@@ -112,7 +115,7 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="/index.css" />
 </head>
   <body>
     <!-- Boot Screen -->
@@ -126,51 +129,48 @@
 
     <!-- Main Content -->
     <div id="main-ui" class="hidden-ui min-h-screen p-4 md:p-8 flex flex-col items-center">
-      <header class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
+      <header class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
         <div>
-          <h1 class="text-7xl md:text-6xl font-bold tracking-tighter text-[#00ff41] flicker">
-            dnbOS<span class="text-xs align-super opacity-50 ml-1">v 1.0</span>
+          <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-[#00ff41] flicker">
+            dnbOS<span class="text-xs align-super opacity-50 ml-1">v1.0</span>
           </h1>
           <p class="text-sm font-mono text-[#00ff41]/70 uppercase tracking-widest">
-            Drum & Bass 
-            <br>Operating System
+            Drum & Bass // 
+            <br> Operating System
           </p>
         </div>
-        <div id="system-specs-header" class="grid grid-cols-1 md:grid-cols-4 gap-1 text-[10px] font-mono uppercase text-[#00ff41]/60">
+        <div id="system-specs-header" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-mono uppercase text-[#00ff41]/60">
           <!-- Specs injected via JS -->
         </div>
       </header>
 
       <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8">
         <!-- Terminal Column -->
-        <section class="hidden md:block lg:col-span-5 space-y-6">
+        <section class="lg:col-span-5 space-y-6">
           <div class="space-y-2">
             <div class="flex items-center justify-between text-xs font-mono text-[#00ff41]">
-              <span>SYSTEM_CONSOL_V01</span>
+              <span>SYSTEM_CONSOL_V03</span>
               <span class="animate-pulse">ONLINE</span>
             </div>
             
             <div id="terminal-container" class="bg-black/80 border border-[#00ff41]/30 rounded p-4 h-[400px] flex flex-col font-mono text-sm md:text-base shadow-[0_0_20px_rgba(0,255,65,0.1)]">
               <div id="terminal-output" class="flex-1 overflow-y-auto space-y-1 mb-4 scrollbar-hide"></div>
               <form id="terminal-form" class="flex border-t border-[#00ff41]/20 pt-2">
-                <span class="text-[#00ff41] mr-2">guest@dnbOS > </span>
-                <div class="relative font-mono text-sm text-[#00ff41]">
-                  <input
-                    id="terminal-input"
-                    type="text"
-                    class="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700 caret-transparent"
-                    placeholder="Enter command..."
-                    autocomplete="off"
-                  />
-                  <span class="terminal-caret"></span>
-                </div>
+                <span class="text-[#00ff41] mr-2">guest@dnbos:~$</span>
+                <input
+                  id="terminal-input"
+                  type="text"
+                  class="flex-1 bg-transparent border-none outline-none text-white font-mono placeholder:text-gray-700"
+                  placeholder="Enter command..."
+                  autocomplete="off"
+                />
               </form>
             </div>
           </div>
           
           <div class="p-4 border border-dashed border-[#00ff41]/30 rounded-sm bg-[#00ff41]/5">
-            <h4 class="flex flex-row items-center whitespace-nowrap text-[#00ff41] text-xs font-bold mb-2 uppercase tracking-tighter">
-              <span class="w-2 h-2 rounded-full mr-2" />
+            <h4 class="text-[#00ff41] text-xs font-bold mb-2 uppercase tracking-tighter flex items-center">
+              <span class="w-2 h-2 bg-[#00ff41] rounded-full mr-2 animate-ping" />
               SLC Scene Bulletin
             </h4>
             <p id="bulletin-text" class="text-xs text-gray-400 leading-relaxed font-mono">
@@ -215,7 +215,9 @@
 
     <div class="crt-overlay"></div>
     <div class="scanline"></div>
-    
-  <script type="module" src="/index.tsx"></script>
+
+    <script type="module" src="/index.js"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
 </html>
+
