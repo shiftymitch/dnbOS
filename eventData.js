@@ -1,7 +1,7 @@
 
 export const EVENTS = [
   {
-    id: 'evt-2024-001',
+    id: 'evt-2025-036',
     title: 'PIRAPUS',
     date: 'DEC 31, 2025',
     location: 'SOUNDWELL, SLC',
@@ -11,7 +11,7 @@ export const EVENTS = [
     status: 'ACTIVE'
   },
   {
-    id: 'evt-2024-002',
+    id: 'evt-2026-001',
     title: 'ALIX PEREZ',
     date: 'JAN 15, 2026',
     location: 'URBAN LOUNGE, SLC',
@@ -21,7 +21,7 @@ export const EVENTS = [
     status: 'ACTIVE'
   },
   {
-    id: 'evt-2024-003',
+    id: 'evt-2026-002',
     title: 'CHASE & STATUS (DJ SET)',
     date: 'FEB 20, 2026',
     location: 'THE COMPLEX, SLC',
@@ -33,7 +33,7 @@ export const EVENTS = [
 ];
 
 export const SYSTEM_SPECS = {
-  version: '1.0.0-flash',
+  version: '1.0',
   kernel: 'dnb-rtos-12-2025',
   cpu: 'Liquid Cooled Core - 174MHz',
   ram: '1024MB Sub-Bass Buffer',
