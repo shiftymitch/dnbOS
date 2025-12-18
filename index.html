@@ -125,11 +125,11 @@
         50% { opacity: 0; }
       }
 
-      #spotify-container {
+      #audio-deck-container {
         border: 1px solid rgba(0, 255, 65, 0.3);
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
         box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
-        min-height: 152px;
+        padding: 1rem;
       }
 
       /* Meltdown Effect */
@@ -168,6 +168,14 @@
       .bpm-input:focus {
         border-bottom: 1px solid #00ff41;
       }
+
+      /* Frequency Bars */
+      .bar {
+        width: 4px;
+        background-color: #00ff41;
+        margin: 0 1px;
+        transition: height 0.1s ease;
+      }
     </style>
   <script type="importmap">
 {
@@ -181,7 +189,6 @@
 </script>
 </head>
   <body>
-    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
     <!-- Boot Screen -->
     <div id="boot-screen" class="fixed inset-0 bg-black text-[#00ff41] p-8 z-[200] overflow-hidden font-mono text-sm md:text-base">
       <div id="boot-logs" class="max-w-4xl mx-auto space-y-1"></div>
@@ -247,20 +254,20 @@
             </p>
           </div>
 
-          <!-- Spotify Media Deck -->
+          <!-- Custom Audio Deck -->
           <div id="media-deck" class="space-y-2">
             <div class="flex items-center justify-between text-xs font-mono text-[#00ff41]">
-              <span>DECK_01 // AUDIO_INTERFACE</span>
+              <span>DECK_01 // NEURAL_AUDIO_INTERFACE</span>
+              <div class="flex items-center space-x-2">
+                <span id="bpm-counter" class="text-cyan-400">174.00 BPM</span>
+                <span class="w-2 h-2 bg-[#00ff41] rounded-full animate-ping"></span>
+              </div>
             </div>
-            <div id="spotify-container" class="rounded p-2 transition-all duration-500 overflow-hidden bg-black">
-              <div class="rounded-2xl overflow-hidden bg-black">
-                <div id="spotify-player-mount"></div>
-              </div>
-              <div class="mt-2 flex justify-between items-center px-1 text-[10px] font-mono text-[#00ff41]/40 uppercase italic">
-                <span>Signal: High</span>
-                <span>Latency: 12ms</span>
-                <span>Buffer: Stable</span>
-              </div>
+            <div id="audio-deck-container" class="rounded overflow-hidden">
+               <div id="audio-deck-content" class="space-y-4">
+                  <!-- Injected via JS -->
+                  <div class="animate-pulse text-xs opacity-50 italic">Initializing Audio Subsystem...</div>
+               </div>
             </div>
           </div>
         </section>
