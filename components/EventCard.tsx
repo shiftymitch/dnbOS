@@ -46,18 +46,23 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <div className="text-lg font-bold text-white font-mono">
             {isSoldOut ? 'SOLD OUT' : event.price}
           </div>
-          <button
-            disabled={isSoldOut}
-            className={`
-              px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all
-              ${isSoldOut 
-                ? 'bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700' 
-                : 'bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)]'
-              }
-            `}
-          >
-            {isSoldOut ? 'SOLD OUT' : 'INITIATE PURCHASE'}
-          </button>
+          {isSoldOut ? (
+            <button
+              disabled
+              className="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700"
+            >
+              SOLD OUT
+            </button>
+          ) : (
+            <a
+              href={event.ticketUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2 font-mono text-sm uppercase tracking-widest transition-all bg-transparent text-[#00ff41] border border-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.2)] text-center"
+            >
+              INITIATE PURCHASE
+            </a>
+          )}
         </div>
       </div>
 
