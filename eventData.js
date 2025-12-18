@@ -2,30 +2,30 @@
 export const EVENTS = [
   {
     id: 'evt-2024-001',
-    title: 'NEURAL NETWORKS: VOL 1',
-    date: '2024.11.15',
+    title: 'PIRAPUS',
+    date: 'DEC 31, 2025',
     location: 'SOUNDWELL, SLC',
-    lineup: ['DLR', 'SURVEY', 'SUB-X', 'SYSTEM_ERR'],
+    lineup: ['SURVEY', 'SUB-X', 'SYSTEM_ERR'],
     description: 'High-frequency neurofunk infiltration. Direct interface required.',
     price: '$25.00',
     status: 'ACTIVE'
   },
   {
     id: 'evt-2024-002',
-    title: 'SUB-LEVEL PROTOCOL',
-    date: '2024.12.06',
+    title: 'ALIX PEREZ',
+    date: 'JAN 15, 2026',
     location: 'URBAN LOUNGE, SLC',
-    lineup: ['ALIX PEREZ', 'VISAGES', 'MONTY'],
+    lineup: ['VISAGES', 'MONTY'],
     description: '1900-0200. Minimal/Deep Drum & Bass session. 174BPM fixed rate.',
     price: '$35.00',
     status: 'ACTIVE'
   },
   {
     id: 'evt-2024-003',
-    title: 'CORE DUMP',
-    date: '2024.12.31',
+    title: 'CHASE & STATUS (DJ SET)',
+    date: 'FEB 20, 2026',
     location: 'THE COMPLEX, SLC',
-    lineup: ['CHASE & STATUS (DJ SET)', 'BOU', 'SIGNAL'],
+    lineup: ['BOU', 'SIGNAL'],
     description: 'New Years Eve total system reboot. Critical mass expected.',
     price: '$65.00',
     status: 'SOLD_OUT'
