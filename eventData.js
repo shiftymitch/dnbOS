@@ -38,7 +38,7 @@ export const EVENTS = [
 export const SYSTEM_SPECS = {
   version: '1.0',
   kernel: 'dnb-rtos-12-2025',
-  cpu: 'Liquid Cooled Core - 174MHz',
+  cpu: 'Liquid Cooled Core',
   ram: '1024MB Sub-Bass Buffer',
   network: 'SLC-BACKBONE-01'
 };
