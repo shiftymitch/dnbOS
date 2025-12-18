@@ -126,7 +126,7 @@
 
     <!-- Main Content -->
     <div id="main-ui" class="hidden-ui min-h-screen p-4 md:p-8 flex flex-col items-center">
-      <header class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
+      <header class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left mb-8 border-b border-[#00ff41]/20 pb-4 space-y-4 md:space-y-0">
         <div>
           <h1 class="text-4xl md:text-6xl font-bold tracking-tighter text-[#00ff41] flicker">
             dnbOS<span class="text-xs align-super opacity-50 ml-1">v 1.0</span>
@@ -136,14 +136,14 @@
             <br>Operating System
           </p>
         </div>
-        <div id="system-specs-header" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-mono uppercase text-[#00ff41]/60">
+        <div id="system-specs-header" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-[10px] font-mono uppercase text-[#00ff41]/60">
           <!-- Specs injected via JS -->
         </div>
       </header>
 
       <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8">
         <!-- Terminal Column -->
-        <section class="lg:col-span-5 space-y-6">
+        <section class="hidden md:block lg:col-span-5 space-y-6">
           <div class="space-y-2">
             <div class="flex items-center justify-between text-xs font-mono text-[#00ff41]">
               <span>SYSTEM_CONSOL_V01</span>
