@@ -44,7 +44,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
         <div className="pt-4 flex items-center justify-between border-t border-[#00ff41]/10">
           <div className="text-lg font-bold text-white font-mono">
-            {isSoldOut ? 'MEMORY FULL' : event.price}
+            {isSoldOut ? 'SOLD OUT' : event.price}
           </div>
           <button
             disabled={isSoldOut}
