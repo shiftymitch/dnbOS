@@ -3,8 +3,8 @@ export const EVENTS = [
   {
     id: 'evt-2025-036',
     title: 'PIRAPUS',
-    date: 'DEC 31, 2025',
-    location: 'SOUNDWELL, SLC',
+    date: 'DEC_31_2025',
+    location: 'SOUNDWELL',
     lineup: ['SURVEY', 'SUB-X', 'SYSTEM_ERR'],
     description: 'High-frequency infiltration. Direct interface required.',
     price: '$25.00',
@@ -14,8 +14,8 @@ export const EVENTS = [
   {
     id: 'evt-2026-001',
     title: 'ALIX PEREZ',
-    date: 'JAN 15, 2026',
-    location: 'URBAN LOUNGE, SLC',
+    date: 'JAN_15_2026',
+    location: 'URBAN_LOUNGE',
     lineup: ['VISAGES', 'MONTY'],
     description: '1900-0200. Minimal/Deep Drum & Bass session. 174BPM fixed rate.',
     price: '$35.00',
@@ -25,8 +25,8 @@ export const EVENTS = [
   {
     id: 'evt-2026-002',
     title: 'CHASE & STATUS (DJ SET)',
-    date: 'FEB 20, 2026',
-    location: 'THE COMPLEX, SLC',
+    date: 'FEB_20_2026',
+    location: 'THE_COMPLEX',
     lineup: ['BOU', 'SIGNAL'],
     description: 'Prove you have a backbone. Max payload expected.',
     price: '$65.00',
