@@ -62,7 +62,7 @@ async function startBoot() {
   
   const logs = [
     "dnbOS ROM BIOS v1.0",
-    "Copyright (C) 2025 dnbOS",
+    "Copyright (C) 2026 dnbOS",
     `CPU: ${SYSTEM_SPECS.cpu}`,
     `RAM: ${SYSTEM_SPECS. ram} ... OK`,
     "Detecting Mass Storage Devices...",
@@ -329,7 +329,7 @@ function initializeMain() {
   bulletinText. textContent = "Boot sequence complete. You're connected to dnbOS — a live feed of Drum & Bass events and activity in Salt Lake City.";
   
   addTerminalLine('dnbOS [Version 1.0]', 'info');
-  addTerminalLine('(c) 2025 dnbOS.  All rights reserved.', 'info');
+  addTerminalLine('(c) 2026 dnbOS.  All rights reserved.', 'info');
   addTerminalLine('');
   addTerminalLine('Type "help" for a list of system commands. ', 'success');
   
